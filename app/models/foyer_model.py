@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from app.database import Base
+from sqlalchemy.orm import relationship
 
 class Foyer(Base):
     __tablename__ = "maison_accueil"
@@ -14,3 +15,5 @@ class Foyer(Base):
     niveau_education_mere_recod = Column(Integer, nullable=False)
     etat_logement = Column(String(50), nullable=False)
     nb_pieces_cat = Column(Integer, nullable=False)
+
+    enfants = relationship("Enfant", back_populates="foyer")

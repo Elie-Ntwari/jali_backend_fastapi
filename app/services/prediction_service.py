@@ -1,10 +1,24 @@
 from app.ml_model.load_model import ml_model
 
+
+import pandas as pd
+
+
+
+
 def predict_rechute(features: dict) -> float:
     """
-    Prend un dictionnaire de features, retourne le score prédit (float).
+    Prédit le score de rechute à partir des features d’un enfant.
+    :param features: dictionnaire des variables nécessaires
+    :return: score de rechute (float)
     """
-    import pandas as pd
-    input_df = pd.DataFrame([features])
-    score = ml_model.predict_proba(input_df)[0][1]  # probabilité classe 1
-    return round(score, 3)
+    try:
+        # Convertir en DataFrame à une ligne
+        df = pd.DataFrame([features])
+        
+        # Faire la prédiction
+        score = ml_model.predict(df)[0]  # retourne un float
+        return round(float(score),3)
+
+    except Exception as e:
+        raise ValueError(f"Erreur de prédiction : {str(e)}")

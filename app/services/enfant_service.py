@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from datetime import datetime
+from app.models.enfant_model import Enfant
 from app.services.prediction_service import predict_rechute
 from app.services.risque_service import evaluer_risque
 
