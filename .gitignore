@@ -1,0 +1,42 @@
+# Environnements virtuels
+venv/
+env/
+
+.venv/
+.env/
+
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Fichiers de logs
+*.log
+
+# Fichiers SQLite (si tu en utilises)
+*.sqlite3
+
+# Fichiers de migrations Alembic (optionnel si tu veux versionner uniquement les scripts)
+# alembic/versions/*
+
+# Configs sensibles / secrets
+.env
+
+# Fichiers IDE / éditeur
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Fichiers systèmes
+.DS_Store
+Thumbs.db
+
+# Tests (optionnel, si tu utilises pytest)
+.pytest_cache/
+
+# Distribution et build (si jamais packaging)
+build/
+dist/
+*.egg-info/
+.eggs/
