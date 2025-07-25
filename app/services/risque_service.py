@@ -1,41 +1,37 @@
 def evaluer_risque(score: float):
     """
-    Évalue le niveau de risque de rechute d'un enfant et fournit un message de recommandations adapté.
+    Évalue le niveau de risque de rechute d'un enfant et fournit une recommandation synthétique pour l'action sociale.
+    
     :param score: Score de prédiction de rechute (entre 0 et 1)
-    :return: Tuple (niveau_libelle, message)
+    :return: Tuple (niveau_risque, conseil_action)
     """
 
     if score < 0.15:
         return (
-            "🟢 Faible",
-            "Profil stable : bon bien-être, logement correct, encadrement protecteur.\n"
-            "Maintenir l'encadrement actuel, valoriser les bonnes pratiques, et encourager la poursuite scolaire."
+            "Risque Faible",
+            "Maintenir la stabilité : suivi léger, continuité scolaire, soutien familial encouragé."
         )
-
+    
     elif score < 0.33:
         return (
-            "🟠 Moyen-Élevé",
-            "Profil avec pauvreté structurelle et logement précaire.\n"
-            "Maintenir la scolarisation, améliorer les conditions de vie, réduire l'exposition à la violence."
+            "Risque Moyen",
+            "Surveiller et renforcer : améliorer logement, suivre la scolarité, prévenir la violence domestique."
         )
 
     elif score < 0.5:
         return (
-            "🟡 Modéré",
-            "Enfants scolarisés partiellement, souvent punis physiquement et vivant en surpopulation.\n"
-            "Renforcer le suivi scolaire, agir sur les conditions de logement, sensibiliser sur les violences."
+            "Risque Modéré",
+            "Mettre en place un accompagnement renforcé : suivi éducatif, soutien parental, logement à améliorer."
         )
-
+    
     elif score < 0.66:
         return (
-            "🔴 Très Élevé",
-            "Adolescents, surtout filles, très exposés : travail massif, violences, déscolarisation.\n"
-            "Intervention prioritaire : soutien psychologique, réduction du travail, retour à l’école."
+            "Risque Élevé",
+            "Prioriser l’enfant : réduire travail, retour à l’école, accompagnement psychologique nécessaire."
         )
 
     else:
         return (
-            "🔴 Élevé",
-            "Jeunes enfants en situation de grande précarité, souvent victimes de violences.\n"
-            "Suivi intensif recommandé : hébergement sécurisé, soutien alimentaire, accompagnement scolaire et santé mentale."
+            "Risque Très Élevé",
+            "Intervention urgente : hébergement sécurisé, soutien alimentaire, prise en charge globale (école, santé mentale)."
         )

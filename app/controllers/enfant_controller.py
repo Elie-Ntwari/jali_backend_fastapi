@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.schemas.enfant_schema import EnfantCreate
 from app.services.enfant_service import create_enfant_avec_prediction
@@ -15,9 +15,15 @@ def creer_enfant(payload: EnfantCreate, db: Session = Depends(get_db)):
             "message": "Enfant enregistré avec prédiction réussie.",
             "data": result
         }
+    except HTTPException as http_exc:
+        return {
+            "success": False,
+            "message": f"{http_exc.detail}",
+            "data": None
+        }
     except Exception as e:
         return {
             "success": False,
-            "message": f"Erreur lors de l’enregistrement de l’enfant : {str(e)}",
+            "message": f"Erreur inattendue : {str(e)}",
             "data": None
         }

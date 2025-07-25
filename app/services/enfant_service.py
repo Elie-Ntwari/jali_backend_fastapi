@@ -1,11 +1,39 @@
-from sqlalchemy.orm import Session
 from datetime import datetime
+from app.repository.enfant_repository import ajouter_enfant, get_enfant_existant
+from sqlalchemy.orm import Session
+from fastapi import HTTPException
+
 from app.models.enfant_model import Enfant
+
 from app.services.prediction_service import predict_rechute
 from app.services.risque_service import evaluer_risque
+from app.models.foyer_model import Foyer
+from app.models.organisation_model import Organisation
 
 def create_enfant_avec_prediction(db: Session, data):
-    # Extraction des features utiles pour le modèle
+    # Vérifier si le foyer existe
+    foyer = db.query(Foyer).filter_by(id=data.foyer_id).first()
+    if not foyer:
+        raise HTTPException(status_code=400, detail="Foyer non trouvé avec l'ID fourni.")
+
+    # Vérifier si l'organisation existe
+    organisation = db.query(Organisation).filter_by(id=data.organisation_id).first()
+    if not organisation:
+        raise HTTPException(status_code=400, detail="Organisation non trouvée avec l'ID fourni.")
+
+    # Vérifier doublon
+    enfant_existant = get_enfant_existant(
+        db,
+        nom=data.nom,
+        postnom=data.postnom,
+        prenom=data.prenom,
+        age_enfant=data.age_enfant,
+        foyer_id=data.foyer_id
+    )
+    if enfant_existant:
+        raise HTTPException(status_code=409, detail="L’enfant existe déjà dans ce foyer.")
+
+    # Préparer les features pour le modèle
     features = {
         "Sexe": data.sexe,
         "age_enfant": data.age_enfant,
@@ -42,12 +70,10 @@ def create_enfant_avec_prediction(db: Session, data):
         foyer_id=data.foyer_id
     )
 
-    db.add(nouvel_enfant)
-    db.commit()
-    db.refresh(nouvel_enfant)
+    enfant_ajoute = ajouter_enfant(db, nouvel_enfant)
 
     return {
-        "enfant": nouvel_enfant,
+        "enfant": enfant_ajoute,
         "score": score,
         "niveau_risque": niveau,
         "conseil": conseil

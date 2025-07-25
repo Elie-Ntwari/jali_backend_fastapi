@@ -18,3 +18,5 @@ class Organisation(Base):
     date_creation = Column(TIMESTAMP(timezone=True), server_default=func.now())
 
     enfants = relationship("Enfant", back_populates="organisation")
+    agents = relationship("Agent", back_populates="organisation")
+

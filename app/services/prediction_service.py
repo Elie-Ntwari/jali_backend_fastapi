@@ -1,9 +1,6 @@
 from app.ml_model.load_model import ml_model
 
-
 import pandas as pd
-
-
 
 
 def predict_rechute(features: dict) -> float:
